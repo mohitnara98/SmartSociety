@@ -1,0 +1,215 @@
+<html>
+
+<head>
+    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            margin-top: 20px;
+        }
+    </style>
+    <!------ Include the above in your HEAD tag ---------->
+    <script>
+
+        function getmaintenance() {
+            $.ajax({
+                url: 'maintenance/getmaintenance.php',
+                contentType: "application/json; charset=UTF-8",
+                success: function (data) {
+                    var i = 0;
+                    while (i < data.length) {
+                        var generalmaintenances = data[i].generalmaintenance;
+                        var parkings = data[i].parking;
+                        var lifts = data[i].lift;
+                        var sinkingfunds = data[i].sinkingfund;
+                        var others = data[i].others;
+                        var latedates = data[i].latedate;
+                        var penaltys = data[i].penalty;
+                        var srnos = data[i].srno;
+
+
+
+
+
+
+
+                        document.getElementById("generalmaintenance").innerHTML = generalmaintenances;
+                        document.getElementById("parking").innerHTML = parkings;
+                        document.getElementById("lift").innerHTML = lifts;
+                        document.getElementById("sinkingfund").innerHTML = sinkingfunds;
+                        document.getElementById("other").innerHTML = others;
+                        // document.getElementById("latedate").value = latedates;
+                        document.getElementById("penalty").innerHTML = penaltys;
+                        // document.getElementById("srno").value = srnos;
+
+                        // $("#generalmaintenance").val(getmaintenance);
+                        // alert(generalmaintenance);
+
+                        i++;
+                    }
+
+                },
+                error: function (error) {
+
+                    alert("unsuccess");
+
+                }
+            });
+
+        }
+
+    </script>
+</head>
+
+<body onload="getmaintenance()">
+    <div class="container">
+        <div class="row">
+            <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+                <div class="row">
+                    <h3 style="text-align:center;"><b>Meera Vatika</b></h3>
+
+                    <h4 style="text-align:center;">Registration No. XYZ/123/2011</h4>
+                    <br>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <address>
+
+                            Near Reliance Residency,
+                            <br>
+                            Barkupada Road
+                            <br>
+                            Kailash Colony,
+                            <br>
+                            Ambernath, Maharashtra 421501
+                            <br>
+                            <abbr title="Phone">P:</abbr> +91 8669037594
+                        </address>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                        <p>
+                            <em>Date: 1st November, 2013</em>
+                        </p>
+                        <p>
+                            <em>Receipt #: 34522677W</em>
+                        </p>
+                        <p>
+                            <em>Flat #: 1234</em>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+
+                    </span>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>General Maintenance</td>
+                                <td id="generalmaintenance">$13</td>
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td> Parking</td>
+                                <td id="parking">$13</td>
+
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Lift Charges</td>
+                                <td id="lift">$13</td>
+
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Sinking Fund</td>
+                                <td id="sinkingfund">$13</td>
+
+                            </tr>
+                            <!-- <tr>
+                            <td>5</td>
+                            <td>Penalty</td>
+                            <td>$13</td>
+
+                        </tr> -->
+                            <tr>
+                                <td>5</td>
+                                <td>Other Charges</td>
+                                <td id="other">$13</td>
+
+                            </tr>
+                            <!-- <tr>
+                            <td class="col-md-9"><em>Lebanese Cabbage Salad</em></h4></td>
+                            <td class="col-md-1" style="text-align: center"> 1 </td>
+                            <td class="col-md-4 text-right">$8</td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="col-md-9"><em>Baked Tart with Thyme and Garlic</em></h4></td>
+                            <td class="col-md-2" style="text-align: center"> 3 </td>
+                            <td class="col-md-2 text-right">$16</td>
+                            
+                        </tr> -->
+                            <!-- <tr>
+                            <td>   </td>
+                            <td>   </td>
+                            <td class="text-right">
+                            <p>
+                                <strong>Subtotal: </strong>
+                            </p>
+                            <p>
+                                <strong>Tax: </strong>
+                            </p></td>
+                            <td class="text-center">
+                            <p>
+                                <strong>$6.94</strong>
+                            </p>
+                            <p>
+                                <strong>$6.94</strong>
+                            </p></td>
+                        </tr> -->
+                            <!-- <tr>
+                            <td>   </td>
+                            <td>   </td>
+                            <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                            <td class="text-center text-danger"><h4><strong>$31.53</strong></h4></td>
+                        </tr> -->
+                        </tbody>
+                    </table>
+                    <!-- <hr style="size:20px; color:black"> -->
+                    <p><b>Notes:-</b></p>
+                    <p>Bill should be paid within 10 days of issuance</p>
+                    <p>&#x20B9; 200 Penalty will be charged for delay payment</p>
+                    <br>
+                    <br>
+                    <h4 style="text-align:right; margin-right: 5%;">For Meera vatika Hsg. Society</h4>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p style="text-align:right; margin-right: 5%;">Secretary/Chairman/Treasurer</p>
+                    <button type="button" class="btn btn-success btn-lg btn-block">
+                        Print  <i class="fa fa-print" aria-hidden="true"></i>
+                    </button></td>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

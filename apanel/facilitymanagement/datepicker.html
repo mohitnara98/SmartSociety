@@ -1,0 +1,29 @@
+<html>
+    <head>
+            <link href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" rel="stylesheet">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script src="http://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+        <script>
+var disableddates = ["20-05-2019", "10-03-2019", "12-03-2019", "12-20-2014"];
+
+
+function DisableSpecificDates(date) {
+    var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
+    return [disableddates.indexOf(string) == -1];
+  }
+
+
+$(function() {
+  $("#date").datepicker({
+    beforeShowDay: DisableSpecificDates
+  });
+});
+
+</script>
+</head>
+<body>
+
+        <input id="date" type="text">
+    
+</body>
+</html>

@@ -1,0 +1,277 @@
+<html>
+
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css"
+    rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+  <link type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css" />
+
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="flatowner/sweetalert.min.js"></script>
+
+  <script>
+
+    function getDetails() {
+
+      $.ajax({
+        url: 'facilitymanagement/select.php',
+        contentType: "application/json; charset=UTF-8",
+        success: function (response) {
+          var data = response[0];
+
+          var i = 0;
+
+          while (i < data.length) {
+
+            const dataForFlatowner = data[i];
+
+            $("#flatowner-name").text(dataForFlatowner.name);
+            $("#flatowner-wingname").text(dataForFlatowner.wingname);
+
+            $("#flatowner-flatnumber").text(dataForFlatowner.flatnumber);
+            $("#flatowner-emailid").text(dataForFlatowner.email);
+
+
+            $("#flatowner-name").val(dataForFlatowner.name);
+            $("#flatowner-wingname").text(dataForFlatowner.wingname);
+
+            $("#flatowner-flatnumber").val(dataForFlatowner.flatnumber);
+            $("#flatowner-emailid").val(dataForFlatowner.email);
+
+
+            i++;
+          }
+          var data2 = response[1];
+          var j = 0;
+
+          while (j < data2.length) {
+            $("#eventlist").append("<span class='list-group-item  '>" + "<i class='fa fa-calendar' aria-hidden='true'></i>" + "&nbsp; &nbsp;" + data2[j].date + "&nbsp; &nbsp;" + "<i class='fa fa-clock-o' aria-hidden='true'></i>" + "&nbsp; &nbsp;" + data2[j].time + "&nbsp; &nbsp;" + data2[j].venue + "</span>");
+
+            j++;
+          }
+
+        },
+        error: function (error) {
+
+
+        }
+      });
+
+    }
+  </script>
+  <script>
+    function addBooking() {
+      var name = $('#flatowner-name').val();
+      var flatnumber = $("#flatowner-flatnumber").val();
+
+      var email = $("#flatowner-emailid").val();
+      var date = $("#booking-date").val();
+      var time = $("#time").val();
+      var venue = $("#venue").val();
+      var detail = $("#detail").val();
+
+      $.ajax({
+        url: 'facilitymanagement/addbooking.php',
+        type: 'POST',
+        data: { 'name': name, 'flatnumber': flatnumber, 'email': email, 'date': date, 'time': time, 'venue': venue, 'detail': detail },
+        success: function (data) {
+          swal({
+
+            title: "Successful!",
+            text: "Booking Successfully Done!",
+            icon: "success",
+          });
+          window.location.href = "admin.php?url=facilitymanagementuser";
+
+
+        },
+        error: function (error) {
+          swal({
+              title: "UnSuccessful!",
+              text: "Some error occured while bookiing !",
+              icon: "warning",
+            });
+
+        }
+      });
+    
+    }
+
+  </script>
+
+
+
+
+
+
+
+</head>
+
+<body onload="getDetails()">
+  <form action="#" method="post" class="form-horizontal col-md-8" role="form" autocomplete="off">
+
+    <div class="form-group">
+      <label for="firstName" class="col-sm-3 control-label">Name</label>
+      <div class="col-sm-4">
+
+        <span id="flatowner-name">ABC</span>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="firstName" class="col-sm-3 control-label">wing Name</label>
+      <div class="col-sm-4">
+
+        <span id="flatowner-wingname">0000</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="firstName" class="col-sm-3 control-label">Flat No.</label>
+      <div class="col-sm-4">
+
+        <span id="flatowner-flatnumber">0000</span>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="firstName" class="col-sm-3 control-label">Email:</label>
+      <div class="col-sm-4">
+        <span id="flatowner-emailid">Smartsociety.com</span>
+
+
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="firstName" class="col-sm-3 control-label">Select Date:</label>
+      <div class="col-sm-4">
+
+
+        <input class="date-own form-control" type="text" id="booking-date">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+
+
+        <script type="text/javascript">
+          var dates = new Array();
+
+          $.ajax({
+            url: 'facilitymanagement/selectdates.php',
+            contentType: "application/json; charset=UTF-8",
+            async: false,
+            success: function (data) {
+              debugger;
+              var i = 0;
+              while (i < data.length) {
+                dates.push(data[i].date);
+                i++;
+              }
+
+
+            }
+
+
+          });
+
+
+
+          $('#booking-date').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            startDate: new Date(),
+            orientation: 'bottom',
+            datesDisabled: dates
+          });
+
+
+        </script>
+
+
+      </div>
+    </div>
+
+
+
+    <div class="form-group">
+      <label for="firstName" class="col-sm-3 control-label">Select Time:</label>
+      <div class="col-sm-4">
+
+        <div class="input-group bootstrap-timepicker timepicker">
+          <input id="time" type="time" class="form-control" pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$">
+          <!-- <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span> -->
+        </div>
+        <!-- <script type="text/javascript">
+            $('#timepicker1').timepicker();
+        </script> -->
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Venue:</label>
+      <div class="col-sm-4">
+
+
+
+        <select class="form-control" name="venue" id="venue">
+          <option>Select</option>
+          <option>Community Hall</option>
+          <option>Club House</option>
+          <option>Garden</option>
+          <option>Temple</option>
+          <option>Terrace</option>
+        </select>
+
+      </div>
+    </div>
+
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Details</label>
+      <div class="col-sm-4">
+        <textarea class="form-control" id="detail" rows="4" cols="50"></textarea>
+      </div>
+    </div>
+
+
+
+
+    <center> <button type="button" class="btn btn-info" style="background-color:#337AB7" onclick="addBooking()">Book
+        Event</button></center>
+    <!-- <a data-toggle="modal" data-target="#noticeModal">Terms and Conditions</a> -->
+  </form> <!-- /form -->
+  <div class="col-md-4">
+    <div class="list-group" id="eventlist">
+      <span style="text-align: center" class="list-group-item active">Smart Society Event List</span>
+
+    </div>
+  </div>
+
+  <div id="noticeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Terms and Conditions</h4>
+        </div>
+        <div class="modal-body">
+          <p>1. Booking will be blocked on days on which the Society itself uses the Facility.<br>
+            2. Booking should be done 15 days prior.<br>
+            3. Pay RS.500 to maketemporary booking.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>

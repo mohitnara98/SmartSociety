@@ -1,0 +1,525 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="js/ssvalidation.js"></script>
+  <link rel="stylesheet" href="settings/main.css">
+  <script src="flatowner/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <style>
+    .date {
+      text-align: right;
+      /* margin-top: 20px; */
+    }
+
+    .type {
+      float: left;
+    }
+
+    .meeting-title {
+      float: left;
+    }
+  </style>
+  <script>
+
+    function addNewMeeting() {
+      var type = $("#type").val();
+      var date = $("#date").val();
+      var time = $("#time").val();
+      var details = $("#details").val();
+      var title = $("#title").val();
+      if (checkForRequiredValidation("type", "type-error", " Type is empty. ")) {
+        if (checkForRequiredValidation("date", "date-error", " Date is empty. ")) {
+          if (checkForRequiredValidation("time", "time-error", " Time is empty. ")) {
+            if (checkForRequiredValidation("title", "title-error", " Title is empty. ")) {
+              if (checkForRequiredValidation("details", "details-error", " Details is empty. ")) {
+                addMeetingToDatabase();
+              }
+            }
+          }
+        }
+      }
+    }
+
+  </script>
+
+  <script>
+    function addMeetingToDatabase() {
+      var type = $("#type").val();
+      var date = $("#date").val();
+      var time = $("#time").val();
+      var details = $("#details").val();
+      var title = $("#title").val();
+      var vaild = true;
+      if (type === '' || date === '' || time === '' || details === '' || title === '') {
+        alert("form can't be empty");
+        vaild = false;
+      }
+      if (vaild) {
+        $.ajax({
+          url: 'meetings/addmeetings.php',
+          type: 'POST',
+          data: { 'type': type, 'date': date, 'time': time, 'details': details, 'title': title },
+          success: function (data) {
+
+            swal({
+
+              title: "Successful!",
+              text: "Meeting Successfully Added!",
+              icon: "success",
+            });
+            getMeeting();
+          },
+          error: function (error) {
+
+            swal({
+              title: "UnSuccessful!",
+              text: "Something went Wrong !",
+              icon: "warning",
+            });
+
+          }
+        });
+      }
+    }
+  </script>
+
+  <script>
+
+    function getMeeting() {
+      $.ajax({
+        url: 'meetings/getMeetings.php',
+        contentType: "application/json; charset=UTF-8",
+        success: function (response) {
+          var data = response[0];
+          var i = 0;
+          $("#test").empty();
+          while (i < data.length) {
+            $("#test").append("<tr><td>" + data[i].type + "</td>" + "<td>" + data[i].date + "</td>" + "<td>" + data[i].title + "</td>" + "<td><button class='btn btn-primary' onClick='deleteMeeting(" + data[i].srno + ")'>Delete</button></td><td><button class='btn btn-primary' data-toggle='modal' data-target='#viewMeetingsModal'id='viewMeetingsButton" + data[i].srno + "'>view</button></td><td><button class='btn btn-primary' data-toggle='modal' data-target='#editModal' id='editmeeting" + data[i].srno + "'>Edit</button></td></tr>");
+            const dataForMeeting = data[i];
+            $("#viewMeetingsButton" + data[i].srno).click(function () {
+              $("#meeting-title").text(dataForMeeting.title);
+              $("#meeting-details").text(dataForMeeting.details);
+              $("#meeting-type").text(dataForMeeting.type);
+              $("#meeting-date").text(dataForMeeting.date);
+              $("#meeting-time").text(dataForMeeting.time);
+
+
+            });
+            $("#editmeeting" + data[i].srno).click(function () {
+              $("#edittitle").val(dataForMeeting.title);
+              $("#editdetails").val(dataForMeeting.details);
+              $("#edittype").val(dataForMeeting.type);
+              $("#editdate").val(dataForMeeting.date);
+              $("#edittime").val(dataForMeeting.time);
+              $("#editsrno").val(dataForMeeting.srno);
+
+            });
+            i++;
+          }
+
+          if (!parseInt(response[1])) {
+            $("#meetingtable tbody tr").each(function () {
+
+              $(this).find("td:eq(3)").remove();
+            });
+
+            $("#meetingtable thead tr").each(function () {
+              debugger;
+              $(this).find("th:eq(3)").remove();
+            });
+          }
+
+          if (!parseInt(response[1])) {
+            $("#meetingtable tbody tr").each(function () {
+
+              $(this).find("td:eq(4)").remove();
+            });
+
+            $("#meetingtable thead tr").each(function () {
+              debugger;
+              $(this).find("th:eq(4)").remove();
+            });
+          }
+          if (!parseInt(response[1])) {
+            $("#addmeetings").remove();
+          }
+
+        },
+        error: function (error) {
+
+
+        }
+      });
+
+    }
+
+    function deleteMeeting(srno) {
+      if (confirm("are you sure you delete this record ?")) {
+        $.ajax({
+          url: 'meetings/deleteMeetings.php',
+          type: 'POST',
+          data: { 'srno': srno },
+          success: function (data) {
+            alert('record succefully deleted...');
+            getMeeting();
+
+          },
+          error: function (error) {
+
+          }
+        });
+      }
+    }
+
+
+  </script>
+
+
+  <script>
+    function updatedata() {
+
+      var srno = $("#editsrno").val();
+      var type = $("#edittype").val();
+      var title = $("#edittitle").val();
+      var details = $("#editdetails").val();
+      var date = $("#editdate").val();
+      var time = $("#edittime").val();
+
+
+      $.ajax({
+        url: 'meetings/updatemeeting.php',
+        type: 'POST',
+
+        data: { 'srno': srno, 'type': type, 'title': title, 'details': details, 'date': date, 'time': time },
+        success: function (data) {
+
+          swal({
+
+            title: "Successful!",
+            text: "Data Successfully Updated !",
+            icon: "success",
+          });
+          getMeeting();
+
+        },
+        error: function (error) {
+
+          swal({
+            title: "UnSuccessful!",
+            text: "Something went Wrong !",
+            icon: "warning",
+          });
+
+        }
+
+      });
+
+
+
+    }
+
+  </script>
+
+<script>
+  $(document).ready(function () {
+    $("#mytext").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#meetingtable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+</head>
+
+<body onload="getMeeting()">
+  <form action="#" method="post" class="form-horizontal" role="form">
+
+    <div class="form-group">
+
+      <div class="col-sm-4" style="float:right">
+        <input type="text" id="mytext" placeholder="Search" class="form-control" autofocus required>
+
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h2><b>Meetings</b></h2>
+          </div>
+          <div class="col-sm-6">
+
+            <button type="button" data-toggle="modal" data-target="#meetingsEditModal" id="addmeetings"
+              style="background-color: red;" class="btn btn-info"><i class="material-icons">&#xE147;</i>Add New
+              Meeting</button>
+
+          </div>
+        </div>
+      </div>
+
+      <table class="table table-hover" id="meetingtable">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Delete</th>
+            <th>View</th>
+            <th>Edit</th>
+
+          </tr>
+        </thead>
+        <tbody id="test">
+
+        </tbody>
+      </table>
+
+
+      <!-- Modal -->
+      <div id="meetingsViewModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title"> Meeting Title</h4>
+            </div>
+            <div class="modal-body">
+              <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+
+  </form>
+
+
+  <!-- Modal -->
+  <div id="meetingsEditModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Meeting Title</h4>
+        </div>
+        <div class="modal-body">
+          <form action="#" method="post" class="form-horizontal" role="form">
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Type:</label>
+              <label id="type-error"></label>
+              <div class="col-sm-6">
+
+                <select class="form-control" id="type" name="category">
+                  <option>Select</option>
+                  <option>General Body Meeting</option>
+                  <option>Annual Meeting</option>
+                  <option>Monthly Meeting</option>
+
+                </select>
+
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label"> Date:</label>
+              <label id="date-error"></label>
+              <div class="col-sm-6">
+                <input class="form-control" id="date" type="date" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Time:</label>
+              <label id="time-error"></label>
+              <div class="col-sm-6">
+                <input class="form-control" id="time" type="time" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Title</label>
+              <label id="title-error"></label>
+              <div class="col-sm-6">
+                <input class="form-control" id="title" type="text" />
+              </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Details</label>
+              <label id="details-error"></label>
+              <div class="col-sm-6">
+                <textarea class="form-control" id="details" rows="4" cols="50"></textarea>
+              </div>
+            </div>
+
+
+
+            <center> <input type="button" style="margin-right:24%;" onclick="addNewMeeting()" value="Add New Meeting"
+                class="btn btn-primary"></center>
+
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="viewMeetingsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content" style="border-radius: 18px">
+        <div class="modal-header"
+          style="background-color: dodgerblue; border-top-left-radius: 15px; border-top-right-radius: 15px; padding: 1rem ">
+          <h4><span id="meeting-type">Meeting Type</span></h4>
+          <p class="date">Date: <span id="meeting-date">31/10/2018</span></p>
+
+        </div>
+        <div class="modal-body">
+          <h3 class="title" id="meeting-title">This will be the title of the page</h3>
+          <hr />
+          <label>Details:</label>
+          <p class="details" id="meeting-details"></p>
+          <hr />
+
+
+          <p style="color:red"> Time: <span id="meeting-time">31/10/2018</span></p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="meetingsViewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"> Meeting Title</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  </form>
+
+
+  <!-- Modal -->
+  <div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Meeting Title</h4>
+        </div>
+        <div class="modal-body">
+          <form action="#" method="post" class="form-horizontal" role="form">
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Type:</label>
+              <label id="type-error"></label>
+              <div class="col-sm-6">
+
+                <select class="form-control" id="edittype" name="edittype">
+                  <option>Select</option>
+                  <option>General Body Meeting</option>
+                  <option>Annual Meeting</option>
+                  <option>Monthly Meeting</option>
+
+                </select>
+
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label"> Date:</label>
+              <label id="date-error"></label>
+              <div class="col-sm-6">
+                <input class="form-control" id="editdate" name="editdate" type="date" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Time:</label>
+              <label id="time-error"></label>
+              <div class="col-sm-6">
+                <input class="form-control" id="edittime" name="edittime" type="time" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Title</label>
+              <label id="title-error"></label>
+              <div class="col-sm-6">
+                <input class="form-control" id="edittitle" name="edittitle" type="text" />
+              </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Details</label>
+              <label id="details-error"></label>
+              <div class="col-sm-6">
+                <textarea class="form-control" id="editdetails" name="editdetails" rows="4" cols="50"></textarea>
+              </div>
+            </div>
+
+            <input type="hidden" id="editsrno">
+
+            <center> <input type="button" style="margin-right:24%;" onclick="updatedata()" value="Update"
+                class="btn btn-primary"></center>
+
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

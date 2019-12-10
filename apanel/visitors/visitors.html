@@ -1,0 +1,429 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="flatowner/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="flatowner/loadings.css">
+    <script src="js/ssvalidation.js"></script>
+
+    <style>
+        article,
+        aside,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {
+            display: block;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        input[type=time]::-webkit-inner-spin-button,
+        input[type=time]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+
+        input[type=time] {
+            -moz-appearance: textfield;
+        }
+
+        input[type=date]::-webkit-inner-spin-button,
+        input[type=date]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+
+        input[type=date] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+    <script>
+        function validateVisitor() {
+            if (checkForRequiredValidation("visitorname", "visitorname-error", " Name  is empty. ")) {
+                if (checkForRequiredValidation("visitorphonenumber", "visitorphonenumber-error", " Phonenumber is empty. ")) {
+                    if (checkForRequiredValidation("wingname", "wingname-error", " wingname is empty. ")) {
+                        if (checkForRequiredValidation("place", "flatnumber-error", " Flatnumber is empty. ")) {
+                            if (checkForRequiredValidation("purpose", "purpose-error", " purpose is empty. ")) {
+                                if (checkForRequiredValidation("intime", "intime-error", " In time is empty. ")) {
+                                    if (checkForRequiredValidation("datevisited", "datevisited-error", " Date Visited is empty. ")) {
+                                        if (checkForRequiredValidation("gatenumber", "gatenumber-error", " Gate Number is empty. ")) {
+                                            if (checkForRequiredValidation("noofpersons", "noofpersons-error", " No of Persons is empty. ")) {
+
+
+
+
+                                                return true;
+                                            } else {
+                                                return false;
+                                            }
+                                        } else {
+                                            return false;
+                                        }
+                                    } else {
+                                        return false;
+                                    }
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+
+        }
+    </script>
+
+
+    <script>
+        function displayLoading(check) {
+            if (check) {
+                document.getElementById('loadingimg').style = 'display:block';
+            } else {
+
+                document.getElementById('loadingimg').style = 'display:none';
+            }
+
+        }
+        var visitorphonenumbers = $('#visitorphonenumber').val();
+        var date = $('#datevisited').val();
+
+
+        $(document).ready(function (e) {
+            $("#form").on('submit', (function (e) {
+                // displayLoading(true);
+                e.preventDefault();
+                var file = document.getElementById('base64image').src;
+                var formData = new FormData(this);
+                formData.append('base64image', file);
+                if (validateVisitor()) {
+                    $.ajax({
+                        url: "visitors/addvisitor.php",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (data) {
+                            displayLoading(false);
+                            swal({
+
+                                title: "Successful!",
+                                text: "OTP Sent !",
+                                icon: "success",
+                            });
+                            window.location.href = "admin.php?url=otp";
+
+
+                        },
+                        error: function (e) {
+                            displayLoading(false);
+                            swal({
+                                title: "UnSuccessful!",
+                                text: "Something went Wrong !",
+                                icon: "warning",
+                            });
+                        }
+                    });
+                }
+            }));
+        });
+
+    </script>
+    <!-- <script>
+        function addNewVisitor() {
+            var visitorname = $("#visitorname").val();
+            var visitorphonenumber = $("#visitorphonenumber").val();
+            var place = $("#place").val();
+            var purpose = $("#purpose").val();
+            var datevisited = $("#datevisited").val();
+            var intime = $("#intime").val();
+            var gatenumber = $("#gatenumber").val();
+            var vehiclenumber = $("#vehiclenumber").val();
+            var memberid = $("#memberid").val();
+            var noofpersons = $("#noofpersons").val();
+            var vaild = true;
+         
+         
+        $.ajax({
+          url: 'visitors/addvisitor.php',
+          type: 'POST',
+          data: { 'visitorname': visitorname, 'visitorphonenumber': visitorphonenumber, 'place': place, 'purpose': purpose, 'datevisited': datevisited, 'intime': intime, 'gatenumber': gatenumber, 'vehiclenumber': vehiclenumber, 'memberid': memberid, 'noofpersons': noofpersons },
+ 
+          success: function (data) {
+            
+            alert("Successfully data entered with following response");
+          
+
+          },
+          error: function (error) {
+
+            alert("Following error occur while trying to connect\n" + error);
+          }
+        });
+      }
+    
+    </script> -->
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
+
+    <script>
+        // $(document).ready(function (e) {
+        //     $("#fupForm").on('submit', function (e) {
+        //         e.preventDefault();
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: 'visitors/addvisitor.php',
+        //             data: new FormData(this),
+        //             contentType: false,
+        //             cache: false,
+        //             processData: false,
+
+        //             success: function (msg) {
+        //                 alert("Successfully data entered with following response");
+        //             },
+        //             error: function (error) {
+
+        //                 alert("Some error occured while submitting the Form\n");
+        //             }
+        //         });
+        //     });
+        // });
+    </script>
+    <script type="text/javascript" src="js/webcam.min.js"></script>
+    <!-- This script is used to import the plugin for webcam-->
+</head>
+
+<body>
+    <div class="loadingdiv" style="display:none" id="loadingimg"><img src="images/loading.gif" class="loadingimg"></div>
+
+    <form action="#" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" id="form" autocomplete="off">
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label"> Image:</label>
+            <div class="col-xs-2">
+                <!-- <input type="file" id="visitorimage" style="visibility: hidden" id="uploadFile" name="visitorimage" onchange="readURL(this);"
+                    placeholder="Capture Image" class="form-control"   /> -->
+                <button class="btn btn-primary" onClick="take_snapshot()">capture now</button>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="col-lg" id="my_camera" style="width:320px; height:240px; border-style: solid;">
+                        </div>
+
+                        <div id="my_result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script language="JavaScript">
+            Webcam.attach('#my_camera');
+
+            function take_snapshot() {                                              //On click of the Capture now button 
+                //This function will take the screenshot from the webcam 
+                Webcam.snap(function (data_uri) {                                   // and assign the screenshot to the image tag 
+                    Webcam.reset();                                                 //the image is stored in the data_uri 
+
+                    document.getElementById('my_camera').style.display = "none";
+                    // document.getElementById('uploadFile').value = data_uri;
+                    $('#uploadFile').val(data_uri);
+                    document.getElementById('my_result').innerHTML = '<img class="" id="base64image" src="' + data_uri + '"/>';
+                });
+            }
+        </script>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Name:</label>
+            <div class="col-sm-4">
+
+                <input type="text" id="visitorname" name="visitorname" placeholder="Enter visitor Name"
+                    class="form-control">
+
+            </div>
+            <font color="red"> <label id="visitorname-error"></label> </font>
+
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Mobile Number:</label>
+            <div class="col-sm-4">
+
+                <input type="number" id="visitorphonenumber" name="visitorphonenumber" placeholder="Enter Mobile Number"
+                    class="form-control">
+
+            </div>
+            <font color="red"> <label id="visitorphonenumber-error"></label> </font>
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Wing Name:</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="wingname" name="wingname">
+                    <option selected disabled hidden>Select</option>
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                </select>
+            </div>
+            <font color="red"> <label id="wingname-error"></label> </font>
+
+        </div>
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Flat Number:</label>
+            <div class="col-sm-4">
+
+                <input type="number" id="place" name="place" placeholder="Enter Place" class="form-control" autofocus>
+
+            </div>
+            <font color="red"> <label id="flatnumber-error"></label> </font>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Purpose:</label>
+            <div class="col-sm-4">
+
+                <input type="text" id="purpose" name="purpose" placeholder="Enter purpose" class="form-control"
+                    autofocus>
+
+            </div>
+            <font color="red"> <label id="purpose-error"></label> </font>
+
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">In Time:</label>
+            <div class="col-sm-4">
+
+                <input type="Time" id="intime" name="intime" class="form-control" placeholder="Enter In" >
+
+                <script>
+                    // var date = new Date();
+                    // var currentTime = date.getHours() + ':' + date.getMinutes();
+                    // document.getElementById('intime').value = currentTime;
+                    // $(function () {
+                    //     var d = new Date(),
+                    //         h = d.getHours(),
+                    //         m = d.getMinutes();
+                    //     if (h < 10) h = '0' + h;
+                    //     if (m < 10) m = '0' + m;
+                    //     $('input[type="time"][value="now"]').each(function () {
+                    //         $(this).attr({ 'value': h + ':' + m });
+                    //     });
+                    // });
+                </script>
+            </div>
+            <font color="red"> <label id="intime-error"></label> </font>
+
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Date:</label>
+            <div class="col-sm-4">
+
+                <input type="Date" id="datevisited" name="datevisited" class="form-control" placeholder="Enter Date"
+                    readonly="readonly">
+                <script>document.querySelector("#datevisited").valueAsDate = new Date();</script>
+            </div>
+            <font color="red"> <label id="datevisited-error"></label> </font>
+
+        </div>
+
+        <!-- <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Out Time:</label>
+            <div class="col-sm-4">
+
+                <input type="Time" id="outtime" name="outtime" class="form-control" placeholder="Enter Out Time"
+                    autofocus required>
+
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Gate Number:</label>
+            <div class="col-sm-4">
+
+                <input type="number" id="gatenumber" name="gatenumber" class="form-control"
+                    placeholder="Enter Gate Number" autofocus>
+
+            </div>
+            <font color="red"> <label id="gatenumber-error"></label> </font>
+
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Vehicle Number:</label>
+            <div class="col-sm-4">
+
+                <input type="Text" id="vehiclenumber" name="vehiclenumber" class="form-control"
+                    placeholder="Enter Vehicle Number" autofocus>
+
+            </div>
+            <font color="red"> <label id="vehiclenumber-error"></label> </font>
+
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Number Of Persons:</label>
+            <div class="col-sm-4">
+
+                <input type="number" id="noofpersons" name="noofpersons" class="form-control"
+                    placeholder="Enter No Of Persons" autofocus>
+
+            </div>
+            <font color="red"> <label id="noofpersons-error"></label> </font>
+
+        </div>
+
+
+
+        <center><button class="btn btn-info">Next</button></center>
+        <!-- location.href='admin.php?url=settings3' -->
+    </form> <!-- /form -->
+</body>
+
+</html>

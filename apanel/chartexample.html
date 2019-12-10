@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bar chart</title>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <style type="text/css">
+      #chart-container {
+        width: 640px;
+        height: auto;
+      }
+    </style>
+  <script>
+
+$(document).ready(function(){
+  $.ajax({
+    url: "dashboard/gettodayvisitors.php",
+    method: "GET",
+    success: function(data) {
+      console.log(data);
+      var intime = [];
+      var numberofvisitors = [];
+
+      for(var i in data) {
+        intime.push( data[i].intime);
+        numberofvisitors.push(data[i].numberofvisitors);
+      }
+
+      var chartdata = {
+        labels: intime,
+        datasets : [
+          {
+            label: 'Number of Complaints',
+            backgroundColor: 'rgba(200, 200, 200, 0.75)',
+            borderColor: 'rgba(200, 200, 200, 0.75)',
+            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
+            hoverBorderColor: 'rgba(200, 200, 200, 1)',
+            data: numberofvisitors
+          }
+        ]
+      };
+
+      var ctx = $("#mycanvas");
+
+      var barGraph = new Chart(ctx, {
+        type: 'line',
+        data: chartdata
+      });
+    },
+    error: function(data) {
+      console.log(data);
+    }
+  });
+});
+</script>
+
+</head>
+<body>
+  <div id="chart-container">
+    <canvas id="mycanvas"></canvas>
+</div>
+</body>
+
+</html>

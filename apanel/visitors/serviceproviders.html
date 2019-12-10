@@ -1,0 +1,183 @@
+<html>
+
+<head>
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="js/ssvalidation.js"></script> -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.3.2.min.js "></script>
+
+    <style type="text/css">
+        div {
+            padding: 8px;
+        }
+    </style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var counter = 2;
+
+            $("#addButton").click(function () {
+
+                if (counter > 10) {
+                    alert("Only 10 textboxes allow");
+                    return false;
+                }
+
+                var newTextBoxDiv = $(document.createElement('div'))
+                    .attr("id", 'TextBoxDiv' + counter);
+
+                newTextBoxDiv.after().html('<label>Flat Number #' + counter + ' : </label>' +
+                    '<input type="text" name="textbox' + counter +
+                    '" id="textbox' + counter + '" value="" >');
+
+                newTextBoxDiv.appendTo("#TextBoxesGroup");
+
+
+                counter++;
+            });
+
+            $("#removeButton").click(function () {
+                if (counter == 1) {
+                    alert("No more textbox to remove");
+                    return false;
+                }
+
+                counter--;
+
+                $("#TextBoxDiv" + counter).remove();
+
+            });
+
+            $("#getButtonValue").click(function () {
+                var name = $('#names').val();
+                var mobilenumber = $('#mobilenumber').val();
+                var type = $('#serviceprovidertype').val();
+                var documenttype = $('#documenttype').val();
+                var freetimeslot = $('#freetimeslot').val();
+
+
+                var msg = $('#textbox' + 1).val();
+                for (i = 2; i < counter; i++) {
+                    msg = msg + ',' + $('#textbox' + i).val();
+                }
+                alert(msg);
+                debugger;
+                $.ajax({
+                    url: "visitors/addserviceprovider.php",
+                    type: "POST",
+                    data: { 'name': name, 'mobilenumber': mobilenumber, 'type': type, 'documenttype': documenttype, 'freetimeslot': freetimeslot, 'msg': msg },
+                    // contentType: false,
+                    // cache: false,
+                    // processData: false,
+
+                    success: function (data) {
+                        alert("success");
+
+                    },
+                    error: function (e) {
+                        alert("unsuccess");
+                    }
+                });
+            });
+
+
+        });
+    </script>
+</head>
+
+
+
+
+<body>
+
+
+    <form method="post" id="form" class="form-horizontal" role="form">
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="names" id="names" placeholder="Enter Owner Name" class="form-control" autofocus
+                    required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Mobile Number:</label>
+            <div class="col-sm-4">
+
+                <input type="number" id="mobilenumber" name="mobilenumber" placeholder="Enter Mobile Number"
+                    class="form-control" required>
+
+            </div>
+            <font color="red"><label id="mobilenumber-error"></label></font>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Type:</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="serviceprovidertype" name="serviceprovidertype" required>
+                    <option>Select</option>
+                    <option>Maid</option>
+                    <option>Driver</option>
+                    <option>Cook</option>
+                    <option>other</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Document Type:</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="documenttype" name="documenttype" required>
+                    <option>Select</option>
+                    <option>Aadhar Card</option>
+                    <option>Pan Card</option>
+                    <option>Voting Card</option>
+                    <option>Driving License</option>
+                    <option>Electricity Bill</option>
+                    <option>Passport</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Free Time Slot:</label>
+            <div class="col-sm-4">
+
+                <input type="time" id="freetimeslot" name="freetimeslot" placeholder="Enter Time slot"
+                    class="form-control" required>
+
+            </div>
+            <font color="red"><label id="freetimeslot-error"></label></font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Provide Service To:</label>
+            <div class="col-sm-4">
+                <div id="TextBoxDiv1">
+                    <label>Flatnumber #1 : </label><input type='textbox' id='textbox1'>
+                    <div id='TextBoxesGroup'>
+
+                    </div>
+                </div>
+            </div>
+            <input type='button' value='Add Button' id='addButton'>
+            <input type='button' value='Remove Button' id='removeButton'>
+            <input type='button' value='Get TextBox Value' id='getButtonValue'>
+
+        </div>
+        <center> <input type="submit" value="Add Service Provider" class="btn btn-info"></center>
+
+    </form>
+</body>
+
+
+</html>

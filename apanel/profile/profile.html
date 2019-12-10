@@ -1,0 +1,175 @@
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="flatowner/loadings.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="flatowner/sweetalert.min.js"></script>
+    <script src="flatowner/sweetalert.min.js"></script>
+  
+    <script>
+        function getprofile() {
+            $.ajax({
+                url: 'profile/getprofile.php',
+                contentType: "application/json; charset=UTF-8",
+                success: function (data) {
+                    var i = 0;
+                    while (i < data.length) {
+                        var name = data[i].name;
+                        var password = data[i].password;
+                        var email = data[i].email;
+                        var mobilenumber = data[i].mobilenumber;
+                        document.getElementById('profile-image').src = "flatowner/" + data[i].image;
+
+                        document.getElementById("names").value = name;
+                        document.getElementById("password").value = password;
+                        document.getElementById("email").value = email;
+                        document.getElementById("mobilenumber").value = mobilenumber;
+
+
+
+                        i++;
+                    }
+
+                },
+                error: function (error) {
+
+                    alert("unsuccess");
+
+                }
+            });
+
+        }
+
+    </script>
+    <script>
+        function updateprofile() {
+
+            var name = $("#names").val();
+
+            var email = $("#email").val();
+            var password = $("#password").val();
+            var mobilenumber = $("#mobilenumber").val();
+
+            $.ajax({
+                url: 'profile/updateprofile.php',
+                type: 'POST',
+
+                data: { 'name': name, 'email': email, 'password': password, 'mobilenumber': mobilenumber },
+                success: function (data) {
+
+                    swal({
+
+                        title: "Successful!",
+                        text: "Data Successfully Updated !",
+                        icon: "success",
+                    });
+
+                    getprofile();
+                },
+                error: function (error) {
+                    swal({
+                        title: "UnSuccessful!",
+                        text: "Something went Wrong !",
+                        icon: "warning",
+                    });
+
+                }
+
+                // });
+
+            });
+        }
+
+    </script>
+    <script>
+
+        $(document).ready(function (e) {
+            $("#imageform").on('submit', (function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'flatowner/updateprofileimage.php',
+                    type: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+
+                    success: function (data) {
+                        alert("success");
+                        getprofile();
+                    },
+                    error: function (e) {
+                        alert("unsuccess");
+                    }
+                });
+            }));
+        });
+    </script>
+</head>
+
+<body onload="getprofile()">
+
+    <form method="post" id="validateform" class="form-horizontal col-md-8" role="form">
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label"> Name:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="names" id="names" placeholder="Enter name" class="form-control" autofocus
+                    required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Password:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="password" id="password" placeholder="Enter password" class="form-control"
+                    autofocus required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Mobiile Number:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="mobilenumber" id="mobilenumber" placeholder="Enter Mobile Number"
+                    class="form-control" autofocus required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Email:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="email" id="email" placeholder="Enter Email" class="form-control" autofocus
+                    required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+
+        <center> <input type="button" onClick="updateprofile()" value="Update Profile" class="btn btn-info"></center>
+    </form>
+    <div class="col-md-4">
+        <form id="imageform" method="post" enctype="multipart/form-data">
+
+            <image id="profile-image" style="height:200px;" src=""  />
+            <input type="file" class="form-control" id="newimage" name="newimage"  />
+            <input type="submit" class="btn btn-info">
+
+        </form>
+    </div>
+</body>
+
+</html>

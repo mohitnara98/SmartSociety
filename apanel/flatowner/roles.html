@@ -1,0 +1,113 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        function getroles() {
+            var roles = Array.from(document.getElementsByClassName('assignrole'));
+            var i;
+            var output = " ";
+            for (i = 0; i < roles.length; i++) {
+                if (roles[i].checked) {
+                    output = output + "1";
+                }
+                else {
+                    output = output + "0";
+                }
+
+            }
+
+            var pemissions = Array.from(document.getElementsByClassName('isassignrole'));
+            var j;
+            var permit = " ";
+            for (j = 0; j < pemissions.length; j++) {
+                if (pemissions[j].checked) {
+                    permit = permit + "1";
+                }
+                else {
+                    permit = permit + "0";
+                }
+
+            }
+
+            var names = $("#names").val();
+            $.ajax({
+                url: 'flatowner/addroles.php',
+                type: 'POST',
+                data: { 'names': names, 'output': output, 'permit': permit },
+                success: function (data) {
+
+                    alert("Successfully data entered with following response");
+
+                },
+                error: function (error) {
+
+                    alert(" error occur\n" + error);
+                }
+            });
+
+
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="form-group">
+        <label for="firstName" class="col-sm-3 control-label">Name:</label>
+        <div class="col-sm-4">
+
+            <input type="text" name="names" id="names" placeholder="Enter Name" class="form-control " autofocus
+                required>
+
+        </div>
+        <font color="red"><label id="memberid-error"></label></font>
+    </div>
+    </div>
+
+    <div class="checkbox">
+        <label><input type="checkbox" id="adduser" class="assignrole" name="adduser" value="">Add User</label><br>
+        <label><input type="checkbox" id="notice" name="notice" class="assignrole" value="">Notice </label><br />
+        <label><input type="checkbox" id="complaints" class="assignrole" name="complaints" value="">Complaints
+        </label><br />
+        <label><input type="checkbox" id="meetings" class="assignrole" name="meetings" value="">Meetings</label><br />
+        <label><input type="checkbox" id="facilitymanagementuser" class="assignrole" name="facilitymanagementuser"
+                value="">Facility Management User</label><br />
+         <label><input type="checkbox" id="facilitymanagementadmin" class="assignrole" name="facilitymanagementadmin"
+                    value="">Facility Management admin</label><br />
+        <label><input type="checkbox" id="maintenance" class="assignrole" name="maintenance"
+                value="">Maintenance</label><br />
+                <label><input type="checkbox" id="visitordetails" class="assignrole" name="visitordetails"
+                    value="">visitor Details</label><br />
+        <label><input type="checkbox" id="security" class="assignrole" name="security" value="">Security
+        </label><br />
+
+    </div>
+    <hr style="color:black;">
+    <div class="checkbox ">
+        <label><input type="checkbox" class="isassignrole" id="readadduser" value="">is Read only Add User
+        </label><br>
+        <label><input type="checkbox" class="isassignrole" id="readnotice" name="readnotice" value="">is Readonly
+            Notice </label><br>
+        <label><input type="checkbox" class="isassignrole" id="readcomplaints" name="readcomplaints" value="">isReadonly
+            Complaints </label><br>
+        <label><input type="checkbox" id="readmeetings" class="isassignrole" name="readmeetings" value="">is
+            Readonly Meetings </label><br>
+        <label><input type="checkbox" class="isassignrole" id="readfacilitymanagement" name="readfacilitymanagement"
+                value="">is Read only facility management</label><br>
+        <label><input type="checkbox" id="readmaintenance" class="isassignrole" name="readmaintenance" value="">is
+            Readonly Maintenance </label><br>
+        <label><input type="checkbox" id="readsecurity" class="isassignrole" name="readsecurity" value="">is Read
+            only Security </label><br>
+    </div>
+
+
+    <button onclick="getroles()">submit</button>
+
+
+</body>
+
+</html>

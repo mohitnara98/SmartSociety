@@ -1,0 +1,52 @@
+.scnavbarline{
+    background:linear-gradient(to right, #098091 , #04A996);
+    min-height:5px;
+}
+.sccontainer{
+    margin:0px 78px;
+}
+.scbgcolor{
+    background-color:#FCFCFC;
+    margin-bottom:0px;
+}
+
+.scnavfont{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    color:#3A3A3A;
+}
+.scbar1, .scbar3 {
+    width: 24.2px;
+    height: 2px;
+    background-color: #333;
+    margin: 5px 0;
+    transition: 0.4s;
+}
+.scbar2{
+    width: 17.2px;
+    height: 2px;
+    background-color: #333;
+    margin: 5px 0;
+    transition: 0.4s;
+ }
+ .navsetting{
+     display:none;
+ }
+.change .scbar1 {
+    -webkit-transform: rotate(-50deg) translate(-3px, 6px);
+    transform: rotate(-50deg) translate(-3px, 6px);
+}
+
+.change .scbar2 {opacity: 0;}
+
+.change .scbar3 {
+    -webkit-transform: rotate(50deg) translate(-4px, -8px);
+    transform: rotate(50deg) translate(-4px, -8px);
+}
+@media (min-width: 768px) {
+  .navbar-collapse.collapse {
+    height: auto !important;
+    padding-bottom: 0;
+    overflow: visible !important;
+  }
+}

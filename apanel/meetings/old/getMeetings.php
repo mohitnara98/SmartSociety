@@ -1,0 +1,18 @@
+
+<?php
+include('connection.php');
+
+
+if($_SERVER['REQUEST_METHOD'] == 'GET'){
+$result = $con->query("select * from `meetings` order by srno desc");
+if($result->num_rows > 0){
+    $finalResponse = array();
+    while($row = $result->fetch_assoc()){
+        array_push($finalResponse,$row);
+    }
+        Header('Content-Type: application/json; charset=UTF8');
+        echo json_encode($finalResponse);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
+}
+}
+?>

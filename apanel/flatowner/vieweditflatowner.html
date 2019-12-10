@@ -1,0 +1,224 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="settings/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="flatowner/sweetalert.min.js"></script>
+  <script>
+
+    function getmembers() {
+      $.ajax({
+        url: 'flatowner/getmembers.php',
+        contentType: "application/json; charset=UTF-8",
+        success: function (data) {
+
+          var i = 0;
+          $("#test").empty();
+          while (i < data.length) {
+
+            $("#test").append("<tr><td>" + data[i].name + "</td>" + "<td>" + data[i].mobilenumber + "</td>" + "<td>" + data[i].flatnumber + "</td>" + "<td>" + data[i].email + "</td>" + "<td><button class='btn btn-primary' data-toggle='modal' data-target='#viewModal' id='viewNoticeButton" + data[i].srno + "'>view</button></td><td><button class='btn btn-primary' data-toggle='modal' data-target='#editModal' id='editmember" + data[i].srno + "'>Edit</button></td></tr>");
+            const memberdetails = data[i];
+            $("#viewNoticeButton" + data[i].srno).click(function () {
+              //   document.getElementById('complaint-image').src = "complaint/" + dataForComplaint.image;
+
+              $("#name").text(memberdetails.name);
+              $("#mobilenumber").text(memberdetails.mobilenumber);
+              $("#email").text(memberdetails.email);
+              $("#flatnumber").text(memberdetails.flatnumber);
+              $("#password").text(memberdetails.password);
+
+
+            });
+            $("#editmember" + data[i].srno).click(function () {
+              //   document.getElementById('complaint-image').src = "complaint/" + dataForComplaint.image;
+
+              $("#editname").val(memberdetails.name);
+              $("#editmobilenumber").val(memberdetails.mobilenumber);
+              $("#editemail").val(memberdetails.email);
+              $("#editflatnumber").val(memberdetails.flatnumber);
+              $("#editpassword").val(memberdetails.password);
+              $("#memberid").val(memberdetails.srno);
+
+            });
+            i++;
+          }
+        },
+        error: function (error) {
+
+
+        }
+      });
+      // title.val() = "";
+    }
+
+  </script>
+  <script>
+    function updatedata() {
+
+      var name = $("#editname").val();
+      var mobilenumber = $("#editmobilenumber").val();
+      var email = $("#editemail").val();
+      var flatnumber = $("#editflatnumber").val();
+      var password = $("#editpassword").val();
+      var memberid = $("#memberid").val();
+
+      $.ajax({
+        url: 'flatowner/updatemembers.php',
+        type: 'POST',
+
+        data: { 'name': name, 'mobilenumber': mobilenumber, 'email': email, 'flatnumber': flatnumber, 'password': password, 'memberid': memberid },
+        success: function (data) {
+          swal({
+
+            title: "Successful!",
+            text: "Data Successfully Updated !",
+            icon: "success",
+          });
+          getmembers();
+
+        },
+        error: function (error) {
+          swal({
+            title: "UnSuccessful!",
+            text: "Something went Wrong !",
+            icon: "warning",
+          });
+
+        }
+
+      });
+
+
+
+    }
+
+  </script>
+
+  <script>
+    function load() {
+      window.location = "http://localhost/society/apanel/flatowner/getmembersreport.php";
+    }
+  </script>
+</head>
+
+<body onload="getmembers()">
+  <div class="container">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-md-2">
+            <button type="button" class="btn btn-primary" style="background-color: red;" onclick="load()"> Generate
+              Report</button>
+          </div>
+          <div class="col-sm-6">
+            <h2><b>Members</b></h2>
+          </div>
+
+        </div>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+
+            <th>Name </th>
+            <th>Mobiile Number</th>
+            <th>Flat Number</th>
+            <th>Email Id</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="test">
+
+
+          </tr>
+        </tbody>
+      </table>
+
+
+      <div id="viewModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <script>
+
+          </script>
+          <!-- Modal content-->
+          <div class="modal-content" style="border-radius: 18px">
+            <div class="modal-header">
+              <h4 class="modal-title">Member Details</h4>
+            </div>
+            <div class="modal-body">
+
+              <label>Name:</label> &nbsp; &nbsp;
+              <span class="description" id="name"></span>
+              <hr />
+              <label>Mobile Number:</label>
+              <span class="description" id="mobilenumber"></span>
+              <hr />
+              <label>Email Id:</label>
+              <p class="description" id="email"></p>
+              <hr />
+              <label>Password:</label>
+              <p class="description" id="password"></p>
+              <hr />
+              <label>Flat Number:</label>
+              <p class="description" id="flatnumber"></p>
+              <hr />
+
+            </div>
+
+            <div class="modal-footer" style="border-radius: 18px">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="editModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+
+          <!-- Modal content-->
+          <div class="modal-content" style="border-radius: 18px">
+            <div class="modal-header">
+              <h4 class="modal-title">Member Details</h4>
+            </div>
+            <div class="modal-body">
+
+              <label>Name:</label> &nbsp; &nbsp;
+              <input type="text" id="editname">
+              <hr />
+              <label>Mobile Number:</label>
+              <input type="number" id="editmobilenumber">
+
+              <hr />
+              <label>Email Id:</label>
+              <input type="email" id="editemail">
+
+              <hr />
+              <label>Password:</label>
+              <input type="text" id="editpassword">
+
+              <hr />
+              <label>Flat Number:</label>
+              <input type="text" id="editflatnumber">
+
+              <hr />
+              <input type="hidden" id="memberid">
+              <button type="button" class="btn btn-default" onclick="updatedata()" data-dismiss="modal">Update</button>
+            </div>
+
+            <div class="modal-footer" style="border-radius: 18px">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+</body>
+
+</html>

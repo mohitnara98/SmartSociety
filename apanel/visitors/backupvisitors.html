@@ -1,0 +1,273 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <style>
+        article,
+        aside,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {
+            display: block;
+        }
+    </style>
+     <script>
+        $(document).ready(function (e) {
+          $("#form").on('submit', (function (e) {
+            e.preventDefault();
+            var file = document.getElementById('base64image').src;
+            var formData = new FormData(this);
+            formData.append('base64image',file);
+            $.ajax({
+              url: "visitors/addvisitor.php",
+              type: "POST",
+              data: formData,
+              contentType: false,
+              cache: false,
+              processData: false,
+    
+              success: function (data) {
+                alert("success");
+                getComplaint();
+              },
+              error: function (e) {
+                alert("unsuccess");
+              }
+            });
+          }));
+        });
+      </script>
+    <!-- <script>
+        function addNewVisitor() {
+            var visitorname = $("#visitorname").val();
+            var visitorphonenumber = $("#visitorphonenumber").val();
+            var place = $("#place").val();
+            var purpose = $("#purpose").val();
+            var datevisited = $("#datevisited").val();
+            var intime = $("#intime").val();
+            var gatenumber = $("#gatenumber").val();
+            var vehiclenumber = $("#vehiclenumber").val();
+            var memberid = $("#memberid").val();
+            var noofpersons = $("#noofpersons").val();
+            var vaild = true;
+         
+         
+        $.ajax({
+          url: 'visitors/addvisitor.php',
+          type: 'POST',
+          data: { 'visitorname': visitorname, 'visitorphonenumber': visitorphonenumber, 'place': place, 'purpose': purpose, 'datevisited': datevisited, 'intime': intime, 'gatenumber': gatenumber, 'vehiclenumber': vehiclenumber, 'memberid': memberid, 'noofpersons': noofpersons },
+ 
+          success: function (data) {
+            
+            alert("Successfully data entered with following response");
+          
+
+          },
+          error: function (error) {
+
+            alert("Following error occur while trying to connect\n" + error);
+          }
+        });
+      }
+    
+    </script> -->
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
+   
+   <script>
+        // $(document).ready(function (e) {
+        //     $("#fupForm").on('submit', function (e) {
+        //         e.preventDefault();
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: 'visitors/addvisitor.php',
+        //             data: new FormData(this),
+        //             contentType: false,
+        //             cache: false,
+        //             processData: false,
+
+        //             success: function (msg) {
+        //                 alert("Successfully data entered with following response");
+        //             },
+        //             error: function (error) {
+
+        //                 alert("Some error occured while submitting the Form\n");
+        //             }
+        //         });
+        //     });
+        // });
+    </script>
+<script type="text/javascript" src="js/webcam.min.js"></script>
+</head>
+
+<body>
+    <form action="#" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" id="form">
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label"> Image:</label>
+            <div class="col-xs-2">
+                <!-- <input type="file" id="visitorimage" style="visibility: hidden" id="uploadFile" name="visitorimage" onchange="readURL(this);"
+                    placeholder="Capture Image" class="form-control"   /> -->
+                    <button  onClick="take_snapshot()">capture now</button>
+            </div>
+            <div class="col-xs-2">
+                <div id="my_camera" style="width:320px; height:240px;"></div>
+                <!-- <img id="blah" src="#" alt="your image" /> -->
+                <div id="my_result"></div>
+            </div>
+        </div>
+
+
+        <script language="JavaScript">
+            Webcam.attach( '#my_camera' );
+            
+            function take_snapshot() {
+                Webcam.snap( function(data_uri) {
+                    Webcam.reset();
+                    debugger;
+                    document.getElementById('my_camera').style.display = "none";
+                    // document.getElementById('uploadFile').value = data_uri;
+                    $('#uploadFile').val(data_uri);
+                    document.getElementById('my_result').innerHTML = '<img id="base64image" src="'+data_uri+'"/>';
+                } );
+            }
+        </script>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Name:</label>
+            <div class="col-sm-4">
+
+                <input type="text" id="visitorname" name="visitorname" placeholder="Enter visitor Name"
+                    class="form-control"  required>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Mobile Number:</label>
+            <div class="col-sm-4">
+
+                <input type="number" id="visitorphonenumber" name="visitorphonenumber" placeholder="Enter Mobile Number"
+                    class="form-control" pattern="[1-9]" required>
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Place:</label>
+            <div class="col-sm-4">
+
+                <input type="text" id="place" name="place" placeholder="Enter Place" class="form-control" autofocus
+                    required>
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Purpose:</label>
+            <div class="col-sm-4">
+
+                <input type="text" id="purpose" name="purpose" placeholder="Enter purpose" class="form-control"
+                    autofocus required>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Date:</label>
+            <div class="col-sm-4">
+
+                <input type="Date" id="datevisited" name="datevisited" class="form-control" placeholder="Enter Date"
+                    autofocus required>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">In Time:</label>
+            <div class="col-sm-4">
+
+                <input type="Time" id="intime" name="intime" class="form-control" placeholder="Enter In Time" autofocus
+                    required>
+
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Out Time:</label>
+            <div class="col-sm-4">
+
+                <input type="Time" id="outtime" name="outtime" class="form-control" placeholder="Enter Out Time"
+                    autofocus required>
+
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Gate Number:</label>
+            <div class="col-sm-4">
+
+                <input type="Text" id="gatenumber" name="gatenumber" class="form-control"
+                    placeholder="Enter Gate Number" autofocus required>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Vehicle Number:</label>
+            <div class="col-sm-4">
+
+                <input type="Text" id="vehiclenumber" name="vehiclenumber" class="form-control"
+                    placeholder="Enter Vehicle Number" autofocus required>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">MemberId:</label>
+            <div class="col-sm-4">
+
+                <input type="Text" id="memberid" name="memberid" class="form-control" placeholder="Enter Member Id"
+                    autofocus required>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Number Of Persons:</label>
+            <div class="col-sm-4">
+
+                <input type="number" id="noofpersons" name="noofpersons" class="form-control"
+                    placeholder="Enter No Of Persons" autofocus required>
+
+            </div>
+        </div>
+
+
+
+        <center><button class="btn btn-info" >Next</button></center>
+        <!-- location.href='admin.php?url=settings3' -->
+    </form> <!-- /form -->
+</body>
+
+</html>

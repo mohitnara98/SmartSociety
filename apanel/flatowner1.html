@@ -1,0 +1,164 @@
+ 
+ <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+ 
+ 
+ 
+ <form action="#" method="post" class="form-horizontal" role="form">
+            
+            <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Member Id:</label>
+                        <div class="col-sm-4">
+            
+        <input type="text" name="memberid"  placeholder="Enter Member ID" class="form-control" autofocus required>
+                        
+          </div>
+        </div>
+        <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Password:</label>
+                        <div class="col-sm-4">
+            
+        <input type="password" name="password"  placeholder="Enter Password" class="form-control" autofocus required>
+                        
+          </div>
+        </div> 
+        <!-- <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Confirm Password:</label>
+                        <div class="col-sm-4">
+                    <input type="password" id="confirmpassword"  placeholder="Confirm Password" class="form-control" autofocus required>
+
+        
+                        
+          </div>
+        </div>  -->
+        
+        <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-4">
+            
+        <input type="text" name="name"  placeholder="Enter Owner Name" class="form-control" autofocus required>
+                        
+          </div>
+        </div> 
+        
+         <div class="form-group">
+                    <label class="col-sm-3 control-label">Date Of Birth:</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="date" name="dateofbirth"  />
+                            </div>
+                            </div>    
+                
+                 <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Mobile Number:</label>
+                        <div class="col-sm-4">
+            
+       <input type="number" name="mobilenumber" placeholder="Enter Mobile Number" class="form-control"  pattern="[1-9]" required  >
+                        
+          </div>
+        </div> 
+        
+                   <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Enter Aadhar Number:</label>
+                        <div class="col-sm-4">
+            
+       <input type="number" name="aadharnumber" placeholder="Enter Aadhar Number" class="form-control"  pattern="[1-9]" required  >
+                        
+          </div>
+        </div> 
+           
+        <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Wing Name</label>
+                        <div class="col-sm-4">
+            
+        <input type="text" name="wingname"  placeholder="Enter Wing Name" class="form-control" autofocus required>
+                        
+          </div>
+        </div> 
+        
+        
+           
+        <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Flat Number</label>
+                        <div class="col-sm-4">
+            
+        <input type="text" name="flatnumber"  placeholder="Enter Flat Number" class="form-control" autofocus required>
+                        
+          </div>
+        </div> 
+         <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Email:</label>
+                        <div class="col-sm-4">
+            
+        <input type="email" name= "emailid" class="form-control" placeholder="Enter email id"  autofocus required>
+                        
+          </div>
+        </div> 
+        <div class="form-group">
+          <label for="firstName" class="col-sm-3 control-label">Maintenance:</label>
+              <div class="col-sm-4">
+  
+          <input type="text" name= "maintenance"class="form-control" placeholder="Enter maintenance"  autofocus required>
+              
+            </div>
+        </div> 
+        <div class="form-group">
+          <label for="firstName" class="col-sm-3 control-label">Committee Member:</label>
+              <div class="col-sm-4">
+  
+<input type="text" name= "committeemember" class="form-control" placeholder="Enter committee member"  autofocus required>
+              
+          </div>
+        </div> 
+        <div class="form-group">
+          <label for="firstName" class="col-sm-3 control-label">Parking Charges:</label>
+              <div class="col-sm-4">
+  
+<input type="text" name= "parkingcharges" class="form-control" placeholder="Enter parking charges"  autofocus required>
+              
+</div>
+</div> 
+                
+                
+                
+                
+                
+                 <center> <button type="button" class="btn btn-info">Button</button></center>
+
+            </form> <!-- /form -->
+            <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "smartsociety";
+$memberid=$_POST['memberid'];
+$password=$_POST['password'];
+$name=$_POST['name'];
+$dateofbirth=$_POST['dateofbirth'];
+$mobilenumber=$_POST['mobilenumber'];
+$aadharnumber=$_POST['aadharnumber'];
+$wingname=$_POST['wingname'];
+$flatnumber=$_POST['flatnumber'];
+$emailid=$_POST['emailid'];
+$maintenance=$_POST['maintenance'];
+$committeemember=$_POST['committeemember'];
+$parkingcharges=$_POST['parkingcharges'];
+
+
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+$sql = "INSERT INTO flatowner (member_id, password, name,date_of_birth,mobile_number,aadhar_number,wing_name,flat_number,email_id,maintenance,committee_member,parking_charges)
+VALUES ($memberid,$password,$name,$dateofbirth,$mobilenumber,$aadharnumber,$wingname,$flatnumber,$emailid,$maintenance,$committeemember,$parkingcharges)";
+
+if ($conn->query($sql) === TRUE) {
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+$conn->close();
+?>

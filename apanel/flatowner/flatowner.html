@@ -1,0 +1,346 @@
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="flatowner/loadings.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="flatowner/sweetalert.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+
+    <script src="js/ssvalidation.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+        function addNewMember() {
+            var names = $("#names").val();
+            var wingname = $("#wingname").val();
+            var flatnumber = $("#flatnumber").val();
+            if (checkForRequiredValidation("flatownerimage", "flatownerimage-error", " Image  is empty. ")) {
+
+                if (checkForRequiredValidation("names", "name-error", " Name  is empty. ")) {
+                    if (checkForNameValidation(names, "name-error", "Invalid Name")) {
+
+                        if (checkForRequiredValidation("passwords", "password-error", " Password  is empty. ")) {
+                            if (checkForMaxLengthValidation("passwords", "password-error", " Password should be greater than 8 characters. ", 8)) {
+                                if (checkForRequiredValidation("mobilenumber", "mobilenumber-error", " Mobile Number  is empty. ")) {
+                                    if (checkForMobileNumber("mobilenumber", "mobilenumber-error", " Mobile Number should be 10 Numbers ", 10)) {
+                                        if (checkForRequiredValidation("dateofbirth", "dateofbirth-error", " Date of birth  is empty. ")) {
+
+                                            if (checkForRequiredValidation("wingname", "wingname-error", " wing name is empty. ")) {
+
+                                                if (checkForRequiredValidation("flatnumber", "flatnumber-error", " Flat Number  is empty. ")) {
+                                                    if (checkForRequiredValidation("emailid", "emailid-error", " Email Id  is empty. ")) {
+
+
+                                                        return true;
+
+
+
+
+                                                    } else {
+                                                        return false;
+                                                    }
+                                                } else {
+                                                    return false;
+                                                }
+                                            } else {
+                                                return false;
+                                            }
+                                        } else {
+                                            return false;
+                                        }
+
+
+
+                                    } else {
+                                        return false;
+                                    }
+
+                                } else {
+                                    return false;
+                                }
+
+                            } else {
+                                return false;
+                            }
+
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+
+        function displayLoading(check) {
+            if (check) {
+                document.getElementById('loadingimg').style = 'display:block';
+            } else {
+
+                document.getElementById('loadingimg').style = 'display:none';
+            }
+
+        }
+        // function addNewMemberInDatabase() {
+
+        //     displayLoading(true);
+        //     var passwords = $("#passwords").val();
+        //     var names = $("#names").val();
+        //     var dateofbirth = $("#dateofbirth").val();
+        //     var mobilenumber = $("#mobilenumber").val();
+        //     var aadharnumber = $("#aadharnumber").val();
+        //     var flatnumber = $("#flatnumber").val();
+        //     var emailid = $("#emailid").val();
+        //     var roles = $("#roless").val();
+        //     var parkingcharges = $("#parkingcharges").val();
+        //     // var flatownerimage=document.querySelector('#flatownerimage').files[0];
+
+        //     $.ajax({
+        //         url: 'flatowner/addflatowner.php',
+        //         type: 'POST',
+        //         data: { 'passwords': passwords, 'names': names, 'dateofbirth': dateofbirth, 'mobilenumber': mobilenumber, 'aadharnumber': aadharnumber, 'flatnumber': flatnumber, 'emailid': emailid, 'roles': roles },
+        //         success: function (mohit) {
+        //             displayLoading(false);
+        //             swal({
+        //                 title: "Successful!",
+        //                 text: "OTP Sent !",
+        //                 icon: "success",
+        //             });
+        //         },
+        //         error: function (error) {
+        //             displayLoading(false);
+        //             swal({
+        //                 title: "UnSuccessful!",
+        //                 text: "Something went Wrong !",
+        //                 icon: "warning",
+        //             });
+        //         }
+        //     });
+        //     debugger;
+        // }
+    </script>
+
+    <script>
+
+        function getroles() {
+            $.ajax({
+                url: 'flatowner/getroles.php',
+                contentType: "application/json; charset=UTF-8",
+                success: function (data) {
+                    var i = 0;
+
+                    while (i < data.length) {
+                        $("#roless").append("<option id='" + data[i].name + "'>" + data[i].name + "</option>");
+
+                        i++;
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+
+                }
+            });
+
+        }
+    </script>
+    <script>
+        $(document).ready(function (e) {
+            $("#validateform").on('submit', (function (e) {
+
+                e.preventDefault();
+                if (addNewMember()) {
+                    $.ajax({
+                        url: 'flatowner/addflatowner.php',
+                        type: "POST",
+                        data: new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+
+                        success: function (data) {
+                            swal({
+                                title: "Successful!",
+                                text: "User Added!",
+                                icon: "success",
+                            });
+
+                        },
+                        error: function (e) {
+                            swal({
+                                title: "UnSuccessful!",
+                                text: "Something went Wrong !",
+                                icon: "warning",
+                            });
+                        }
+                    });
+                }
+            }));
+
+        });
+
+    </script>
+    <style>
+        img {
+            max-width: 180px;
+        }
+
+        input[type=file] {
+            padding: 7px;
+            background: #2d2d2d;
+        }
+    </style>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.blah')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</head>
+
+<body onload="getroles()">
+    <div class="loadingdiv" style="display:none" id="loadingimg"><img src="images/loading.gif" class="loadingimg"></div>
+    <form method="post" id="validateform" class="form-horizontal col-md-10" role="form">
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Image</label>
+            <div class="col-sm-4">
+
+                <input type="file" name="flatownerimage" id="flatownerimage" placeholder="Enter Owner Name"
+                    class="form-control" autofocus onchange="readURL(this);">
+            </div>
+            <font color="red"> <label id="flatownerimage-error"></label> </font>
+
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-4">
+
+                <input type="text" data-toggle="tooltip" data-placement="right" title="Enter only characters"
+                    name="names" id="names" placeholder="Enter Owner Name" class="form-control" autofocus>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Password:</label>
+            <div class="col-sm-4">
+
+                <input data-toggle="tooltip" data-placement="right" title="Password must be greater than 8 characters "
+                    type="password" name="passwords" id="passwords" placeholder="Enter Password" class="form-control"
+                    autofocus />
+
+            </div>
+            <font color="red"> <label id="password-error"></label> </font>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Mobile Number:</label>
+            <div class="col-sm-4">
+
+                <input data-toggle="tooltip" data-placement="right" title="Phone number must be 10 digits" type="number"
+                    id="mobilenumber" name="mobilenumber" placeholder="Enter Mobile Number" class="form-control">
+
+            </div>
+            <font color="red"><label id="mobilenumber-error"></label></font>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Date Of Birth:</label>
+            <div class="col-sm-4">
+                <input class="form-control" id="dateofbirth" type="date" name="dateofbirth" />
+
+            </div>
+            <font color="red"> <label id="dateofbirth-error"></label></font>
+        </div>
+
+
+
+        <!-- <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Enter Aadhar Number:</label>
+            <div class="col-sm-4">
+
+                <input type="number" data-toggle="tooltip" data-placement="right" title="Aadhar number must be 12 digits"  id="aadharnumber" name="aadharnumber" placeholder="Enter Aadhar Number"
+                    class="form-control" pattern="[1-9]">
+
+            </div>
+            <font color="red"><label id="aadharnumber-error"></label></font>
+        </div> -->
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Wing Name:</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="wingname" name="wingname">
+                    <option selected disabled >Select</option>
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+
+
+
+                </select>
+            </div>
+            <font color="red"><label id="wingname-error"></label></font>
+
+        </div>
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Flat Number</label>
+            <div class="col-sm-4">
+
+                <input type="number" id="flatnumber" name="flatnumber" placeholder="Enter Flat Number"
+                    class="form-control">
+
+            </div>
+            <font color="red"><label id="flatnumber-error"></label></font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Email:</label>
+            <div class="col-sm-4">
+
+                <input type="email" id="emailid" name="emailid" class="form-control" placeholder="Enter email id"
+                    autofocus>
+
+            </div>
+            <font color="red"><label id="emailid-error"></label></font>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Select Roles:</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="roless" name="roles">
+                    <option>Select</option>
+                </select>
+            </div>
+        </div>
+        <center> <input type="submit" style="background-color: #153240" value="Add Member" class="btn btn-info">
+        </center>
+
+    </form> <!-- /form -->
+    <div class="col-md-2">
+
+        <img class="blah" src="images/defaultimage.png" style="padding-right:50px" your image" />
+
+    </div>
+</body>
+
+</html>

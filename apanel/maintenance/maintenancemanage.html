@@ -1,0 +1,148 @@
+<html>
+
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css"
+        rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+
+    <script>
+
+        function getflatowner() {
+            $.ajax({
+                url: 'maintenance/getflatowner.php',
+                contentType: "application/json; charset=UTF-8",
+                success: function (data) {
+                    var i = 0;
+
+                    while (i < data.length) {
+                        $("#flatnumbers").append("<option id='" + data[i].flatnumber + "'>" + data[i].flatnumber + "</option>");
+
+                        i++;
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+
+                }
+            });
+
+        }
+    </script>
+    <script>
+        function getdetails() {
+            var flatnumber = $("#flatnumbers").val();
+            var year = $("#year").val();
+            var month = $("#month").val();
+            var wingname=$('#wingname').val();
+            $.ajax({
+                url: 'maintenance/getdetails.php',
+                type: 'POST',
+
+                data: { 'flatnumber': flatnumber, 'year': year, 'month': month,'wingname':wingname },
+                success: function (data) {
+                    var i = 0;
+                    while (i < data.length) {
+                        var status=data[i].status;
+                        var amount=data[i].amount;
+                        document.getElementById("status").innerHTML = status;
+                        document.getElementById("amount").innerHTML = amount;
+
+
+                        i++;
+                    }
+                },
+            });
+
+            
+        }
+
+    </script>
+</head>
+
+<body onload="getflatowner()">
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Select wingname</label>
+            <div class="col-sm-4">
+
+                <select class="form-control" id="wingname"><br>
+                    <option>Select</option>
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B2</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Select flatnumber</label>
+            <div class="col-sm-4">
+
+                <select class="form-control" id="flatnumbers"><br>
+                    <option>Select</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Select Year</label>
+            <div class="col-sm-4">
+
+
+                <input class="date-own form-control" type="text" id="year">
+
+
+                <script type="text/javascript">
+                    $('.date-own').datepicker({
+                        autoclose: true,
+
+                        minViewMode: 2,
+                        format: 'yyyy'
+                    });
+
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Select Month:</label>
+            <div class="col-sm-4">
+
+
+                <input class="date-month form-control" type="text" id="month" onchange="getdetails()">
+
+
+                <script type="text/javascript">
+                    $('.date-month').datepicker({
+                        autoclose: true,
+                        minViewMode: 1,
+                        format: 'MM'
+                    });
+
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Status:</label>
+            <div class="col-sm-4">
+                <span id="status"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Amount:</label>
+            <div class="col-sm-4">
+                <span id="amount"></span>
+            </div>
+        </div>
+        <center> <button type="button" class="btn btn-success ">
+                Pay Now   <span class="glyphicon glyphicon-chevron-right"></span>
+            </button></center>
+    </form>
+</body>
+
+</html>

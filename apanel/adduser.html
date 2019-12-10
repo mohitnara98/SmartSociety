@@ -1,0 +1,146 @@
+ 
+ <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+ 
+ 
+ 
+ <form action="#" method="post" class="form-horizontal" role="form">
+            
+            <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Type:</label>
+                        <div class="col-sm-4">
+            
+        
+        
+        <select class="form-control" name="category">
+            <option>Select</option>
+            <option>1</option>
+            <option>2</option>
+             <option>3</option>
+             <option>4</option>
+        </select>
+        
+        </div>
+        </div>
+        
+            
+                
+                
+                
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Product Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" id="firstName" name="productname" placeholder="Product Name" class="form-control" autofocus required>
+                        
+                    </div>
+                </div>
+                
+                                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Product Display Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" id="firstName" name="productdisplayname" placeholder="Product Display Name" class="form-control" autofocus required>
+                        
+                    </div>
+                </div>
+                
+                
+                
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Product Title</label>
+                    <div class="col-sm-4">
+                        <input type="text" id="firstName" name="producttitle" placeholder="Product Title" class="form-control"  required>
+                        
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Top Review</label>
+                    <div class="col-sm-4">
+                        <input type="text"  id="firstName" name="topreview" placeholder="Top Review" required class="form-control" pattern="[1-5]{1}">
+                    </div>
+                </div>
+              
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Product Price</label>
+                    <div class="col-sm-4">
+                        <input type="text" id="firstName" name="productprice" placeholder="Enter Price" class="form-control" >
+                        
+                    </div>
+                </div>
+               
+               <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Product Details</label>
+                    <div class="col-sm-4">
+                    <textarea class="form-control" name="productdetails" rows="6" id="comment"></textarea>
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Services Covered</label>
+                    <div class="col-sm-4">
+                        <input type="number" id="firstName" placeholder="Enter Rows" class="form-control" onfocusout = "addServices(this);" pattern="[1-9]" required min="1">
+                        <div id="servers"></div>
+                    </div>
+                    
+                        
+                    
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label for="whoshouldbuy" class="col-sm-3 control-label">Who Should Buy</label>
+                    <div class="col-sm-4">
+                        <input type="number" id="whoshouldbuy" placeholder="Enter Rows " class="form-control" onfocusout = "addBuyers(this);" pattern="[1-9]" required>
+                            <div id="buyers"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="requireddocuments" class="col-sm-3 control-label">Documents Required</label>
+                    <div class="col-sm-4">
+                        <input type="number" id="requireddocuments" placeholder="Enter Rows" class="form-control" onfocusout = "addDocuments(this);" pattern="[1-9]" required>
+                            <div id="documents"></div>    
+                    </div>
+                </div>
+               
+               <div class="form-group">
+                    <label for="faq" class="col-sm-3 control-label">FAQs</label>
+                    <div class="col-sm-4">
+                    <input type="number" id="faqs" placeholder="Enter Rows" class="form-control" onfocusout = "addFaq(this);" pattern="[1-9]" required>
+                            <div id="faq"></div>
+                        
+                        
+                    </div>
+                </div>
+                
+                 <div class="form-group">
+                    <label for="timeline" class="col-sm-3 control-label">Timeline</label>
+                    <div class="col-sm-4">
+                    <input type="number" id="timeline1" placeholder="Enter Rows" class="form-control" onfocusout = "addTimeline(this);" pattern="[1-9]" required>
+                            <div id="timeline"></div>
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">GST</label>
+                    <div class="col-sm-4">
+                        <input type="text"  id="firstName" name="GST" placeholder="Top Review" required class="form-control" pattern="[0-9]{2}">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Estimated Days</label>
+                    <div class="col-sm-4">
+                        <input type="text"  id="firstName" name="expectedtime" placeholder="Top Review" required class="form-control" pattern="[0-9]{2}">
+                    </div>
+                </div>
+                
+                
+                
+                
+                 <center> <button type="button" class="btn btn-info">Button</button></center>
+
+            </form> <!-- /form -->

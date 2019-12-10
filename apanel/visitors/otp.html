@@ -1,0 +1,69 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="flatowner/loadings.css">
+  <script>
+    function displayLoading(check) {
+      if (check) {
+        document.getElementById('loadingimg').style = 'display:block';
+      } else {
+
+        document.getElementById('loadingimg').style = 'display:none';
+      }
+
+    }
+  </script>
+  <script>
+
+
+    function sendotp() {
+      displayLoading(true);
+      var otpp = document.getElementById('otp').value;
+      $.ajax({
+        url: 'visitors/verifyotp.php',
+        type: 'POST',
+        data: { 'otpp': otpp },
+        success: function (data) {
+          displayLoading(false);
+          swal({
+            title: "Successful!",
+            text: "Message Sent !",
+            icon: "success",
+          });
+          window.location.href = "admin.php?url=visitors";
+
+        },
+        error: function (error) {
+
+          swal({
+            title: "UnSuccessful!",
+            text: "Message Not Sent !",
+            icon: "warning",
+          });
+        }
+      });
+    }
+  </script>
+
+</head>
+
+<body>
+  <div class="loadingdiv" style="display:none" id="loadingimg"><img src="images/loading.gif" class="loadingimg"></div>
+
+  <form action="#" method="post" class="form-horizontal" role="form">
+
+    <div class="form-group">
+      <label for="firstName" class="col-sm-3 control-label">OTP</label>
+      <div class="col-sm-4">
+
+        <input type="text" id="otp" placeholder="Enter OTP" class="form-control" autofocus required>
+        <center><button type="button" onclick="sendotp()" class="btn btn-info">submit</button></center>
+      </div>
+    </div>
+  </form>
+</body>
+
+</html>

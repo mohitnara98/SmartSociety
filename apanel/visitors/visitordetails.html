@@ -1,0 +1,137 @@
+<html>
+<head>
+        <link rel="stylesheet" href="settings/main.css">
+        
+  <script>
+
+        function getDailyVisitors() {
+            debugger;
+          $.ajax({
+            url: 'visitors/getuserspecificvisitor.php',
+            contentType: "application/json; charset=UTF-8",
+            success: function (data) {
+              var i = 0;
+              $("#test").empty();
+              while (i < data.length) {
+              
+                $("#test").append("<tr><td> <img style='border-radius: 70%; width:100px; height:78px;' src=visitors/" + data[i].image + "></td>" + "<td>" + data[i].visitorname + "</td>" + "<td>" + data[i].visitorphonenumber +"</td>" +"<td>"+ data[i].datevisited + "</td>" +"<td><button class='btn btn-primary' data-toggle='modal' data-target='#viewModal' id='viewNoticeButton" + data[i].srno + "'>view</button></td> </tr>");
+                const dataForVisitors = data[i];
+                $("#viewNoticeButton" + data[i].srno).click(function () {
+                  document.getElementById('visitor-image').src = "visitors/" + dataForVisitors.image;
+                
+                  $("#purpose").text(dataForVisitors.purpose);
+                  $("#place").text(dataForVisitors.place);
+                  $("#phonenumber").text(dataForVisitors.visitorphonenumber);
+                  $("#intime").text(dataForVisitors.intime);
+                  $("#vehiclenumber").text(dataForVisitors.vehiclenumber);
+
+                  $("#noofpersons").text(dataForVisitors.noofpersons);
+
+                  
+                });
+                i++;
+              }
+            },
+            error: function (error) {
+              debugger;
+    
+            }
+          });
+          // title.val() = "";
+        }
+      </script>
+<script>
+  $(document).ready(function () {
+    $("#mytext").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#visitorlogTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+</head>
+<body onload="getDailyVisitors()">
+  <div class="form-group">
+    <div class="col-sm-4" style="float:right">
+      <input type="text" id="mytext" placeholder="Search" class="form-control" autofocus required>
+    </div>
+  </div>
+        <div class="container">
+                <div class="table-wrapper">
+                  <div class="table-title">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <h2><b>Visitors</b></h2>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <table id="visitorlogTable" class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                       
+                        <th>visitor image</th>
+                        <th>Name</th>
+                        <th>Contact No.</th>
+                        <th>Date Visited</th>
+                      </tr>
+                    </thead>
+                    <tbody id="test">
+                      
+                   
+                      </tr> 
+                    </tbody>
+                  </table>
+                  
+                </div>
+              </div>
+              <div id="viewModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+            
+                  <script>
+                    // document.getElementById("testing").innerHTML = viewNotice();
+                  </script>
+                  <!-- Modal content-->
+                  <div class="modal-content" style="border-radius: 18px">
+                    <div class="modal-header" style="background-color: #0F0C29; border-top-left-radius: 15px; border-top-right-radius: 15px; padding: 1rem ">
+                      <!-- <h4 class="notice-title">NOTICE</h4> -->
+                      <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                      <h4><span id="notice-type">Visitor Detail</span></h4>
+                      <p class="date">Date: <span id="visited-date">31/10/2018</span></p>
+            
+                    </div>
+                    <div class="modal-body">
+                      <img src="" style="height:115px;" id="visitor-image">
+                      <hr />
+                      <label>Phone Number:</label>
+                      <p class="description" id="phonenumber"></p>
+                      <hr />
+                      <label>Place:</label>
+                      <p class="description" id="place"></p>
+                      <hr />
+                      <label>In Time:</label>
+                      <p class="description" id="intime"></p>
+                      <hr />
+                      <label>Gate Number:</label>
+                      <p class="description" id="gatenumber"></p>
+                      <hr />
+                      <label>Vehicle Number:</label>
+                      <p class="description" id="vehiclenumber"></p>
+                      <hr />
+                      <label>Number Of Persons:</label>
+                      <p class="description" id="noofpersons"></p>
+                      <hr />
+            
+            
+                      
+                    </div>
+            
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+</body>
+</html>

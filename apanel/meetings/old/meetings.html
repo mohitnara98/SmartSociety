@@ -1,0 +1,187 @@
+ <html>
+   <head>
+ <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+ <script>
+    function addNewMeeting(){
+        var type = $("#type").val();
+        var date = $("#date").val();
+        var time = $("#time").val();
+        var details = $("#details").val();
+        var title = $("#title").val();
+        var vaild = true;
+        if(type ==='' || date==='' || time ===''  || details ===''  || title ===''){
+            alert("form can't be empty");
+            vaild = false;
+        }  
+        if(vaild){
+        $.ajax({
+            url:'meetings/addmeetings.php',
+            type:'POST',
+            data:{'type':type,'date':date,'time':time,'details':details,'title':title},
+            success:function(data){
+                
+                alert("Successfully data entered with following response");
+            },
+            error:function(error){
+              
+                alert("Following errro occor while trying to connect\n"+error);
+            }
+        });
+    }
+}
+    </script>
+</head>
+<body>
+ <form action="#" method="post" class="form-horizontal" role="form">
+  
+                <div class="form-group">
+                
+                    <div class="col-sm-4" style="float:right">
+                        <input type="text" id=""  placeholder="Search" class="form-control" autofocus required>
+                        
+                    </div>
+                </div>
+                
+                               
+                <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr class="warning">
+        <td>Default</td>
+        <td>Defaultson</td>
+        <td>def@somemail.com</td>
+        <td><button type="button" class="btn btn-info" data-toggle="modal" data-target="#meetingsViewModal">View</button>
+        <button type="button" class="btn btn-info">Delete</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#meetingsEditModal">Edit</button></td>
+      </tr>      
+      <tr class="active">
+        <td>Default</td>
+        <td>Defaultson</td>
+        <td>def@somemail.com</td>
+        <td><button type="button" class="btn btn-info" data-toggle="modal" data-target="#meetingsViewModal">View</button>
+        <button type="button" class="btn btn-info">Delete</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#meetingsEditModal">Edit</button></td>
+      </tr> -->
+    
+      
+    </tbody>
+  </table>
+  
+  
+  <!-- Modal -->
+<div id="meetingsViewModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> Meeting Title</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </div>
+    </div>
+    
+    <center> <button type="button" data-toggle="modal" data-target="#meetingsEditModal" class="btn btn-info">Add Meeting</button></center>
+
+            </form>
+    
+    
+ <!-- Modal -->
+<div id="meetingsEditModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Meeting Title</h4>
+      </div>
+      <div class="modal-body">
+    <form action="#" method="post" class="form-horizontal" role="form">
+            
+          
+                   <div class="form-group">
+                    <label  class="col-sm-3 control-label">Type:</label>
+                        <div class="col-sm-6">
+            
+            <select class="form-control" id="type" name="category">
+            <option>Select</option>
+            <option>General Body Meeting</option>
+            <option>Annual Meeting</option>
+             <option>Monthly Meeting</option>
+             
+        </select>
+        
+        </div>
+        </div>
+        
+        
+         <div class="form-group">
+                    <label class="col-sm-3 control-label"> Date:</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="date" type="date" />
+                            </div>
+                            </div>
+                            
+                            <div class="form-group">
+                    <label class="col-sm-3 control-label">Time:"</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="time" type="time" />
+                            </div>
+                            </div>
+                            
+                             <div class="form-group">
+                    <label class="col-sm-3 control-label">Title</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="title" type="text" />
+                            </div>
+                            </div>
+                            
+                            
+                            
+                            
+                     <div class="form-group">
+                    <label class="col-sm-3 control-label">Details</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" id="details" rows="4" cols="50"></textarea>
+                            </div>
+                            </div>
+                            
+                            
+                            
+       <center> <button  style="margin-right:24%;"  onClick="addNewMeeting()" value="Add New Meeting"type="button" class="btn btn-primary" data-dismiss="modal"></center>
+    
+    </form>
+    </div>
+    
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+        </div>
+    </div>
+    </diva>
+  </body>
+    </html>
+
+
+  
+  
+                
+                
+        

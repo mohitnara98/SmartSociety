@@ -1,0 +1,201 @@
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="flatowner/loadings.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="flatowner/sweetalert.min.js"></script>
+    <script src="flatowner/sweetalert.min.js"></script>
+</head>
+<script>
+
+    function getmaintenance() {
+        $.ajax({
+            url: 'maintenance/getmaintenance.php',
+            contentType: "application/json; charset=UTF-8",
+            success: function (data) {
+                var i = 0;
+                while (i < data.length) {
+                    var generalmaintenances = data[i].generalmaintenance;
+                    var parkings = data[i].parking;
+                    var lifts = data[i].lift;
+                    var sinkingfunds = data[i].sinkingfund;
+                    var others = data[i].others;
+                    var latedates = data[i].latedate;
+                    var penaltys = data[i].penalty;
+                    var srnos = data[i].srno;
+
+
+
+
+
+
+
+                    document.getElementById("generalmaintenance").value = generalmaintenances;
+                    document.getElementById("parking").value = parkings;
+                    document.getElementById("lift").value = lifts;
+                    document.getElementById("sinkingfund").value = sinkingfunds;
+                    document.getElementById("other").value = others;
+                    document.getElementById("latedate").value = latedates;
+                    document.getElementById("penalty").value = penaltys;
+                    document.getElementById("srno").value = srnos;
+
+                    // $("#generalmaintenance").val(getmaintenance);
+                    // alert(generalmaintenance);
+
+                    i++;
+                }
+
+            },
+            error: function (error) {
+
+                alert("unsuccess");
+
+            }
+        });
+    
+    }
+
+</script>
+<script>
+    function updatemaintenance() {
+
+        var generalmaintenance = $("#generalmaintenance").val();
+
+        var parking = $("#parking").val();
+        var lift = $("#lift").val();
+        var sinkingfund = $("#sinkingfund").val();
+        var other = $("#other").val();
+        var latedate = $("#latedate").val();
+        var penalty = $("#penalty").val();
+
+        var srno = $("#srno").val();
+        $.ajax({
+            url: 'maintenance/updatemaintenance.php',
+            type: 'POST',
+
+            data: { 'generalmaintenance': generalmaintenance, 'parking': parking, 'lift': lift, 'sinkingfund': sinkingfund, 'other': other, 'latedate': latedate, 'penalty': penalty, 'srno': srno },
+            success: function (data) {
+                
+                swal({
+
+                    title: "Successful!",
+                    text: "Data Successfully Updated !",
+                    icon: "success",
+                });
+            
+
+            },
+            error: function (error) {
+                swal({
+                    title: "UnSuccessful!",
+                    text: "Something went Wrong !",
+                    icon: "warning",
+                });
+
+            }
+
+        // });
+
+        });
+    }
+
+</script>
+
+<body onload="getmaintenance()">
+
+    <form method="post" id="validateform" class="form-horizontal" role="form">
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">General Maintenance:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="generalmaintenance" id="generalmaintenance" placeholder="Enter Amount"
+                    class="form-control" autofocus required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Parking Charges:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="parking" id="parking" placeholder="Enter Amount" class="form-control" autofocus
+                    required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Lift:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="lift" id="lift" placeholder="Enter Amount" class="form-control" autofocus
+                    required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Sinking Fund:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="sinkingfund" id="sinkingfund" placeholder="Enter Amount" class="form-control"
+                    autofocus required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Other:</label>
+            <div class="col-sm-4">
+
+                <input type="text" name="other" id="other" placeholder="Enter Amount" class="form-control" autofocus
+                    required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Late Date:</label>
+            <div class="col-sm-4">
+
+                <input type="number" name="latedate" id="latedate" placeholder="Enter Amount" class="form-control"
+                    autofocus required>
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Penalty:</label>
+            <div class="col-sm-4">
+
+                <input type="number" name="penalty" id="penalty" placeholder="Enter Amount" class="form-control"
+                    autofocus required>
+        <input type="hidden" id="srno">
+
+
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+        </div>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Total:</label>
+            <div class="col-sm-4">
+
+                <span id="total"></span>
+            </div>
+            <font color="red"> <label id="name-error"></label> </font>
+
+        </div>
+        <input type="button" onClick="updatemaintenance()" value="Save" class="btn btn-info">
+    </form>
+
+</body>
+
+</html>
